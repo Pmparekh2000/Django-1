@@ -8,16 +8,34 @@
     <link rel="stylesheet" href="{% static 'todolist/style.css' %}"/>
 </head>
 <body>
+    
     <h1>Hello World</h1>
     <ul>
         {% for todolist in todo_items %}
             {% if todolist.completed %}
             <li style="background-color: blue;">{{todolist.text}}</li>
             {% else %}
-            <a href="#"><li style="background-color: red;">{{todolist.text}}</li></a>
+            <a href="{% url 'completed' todolist.id  %}"><li style="background-color: red;">{{todolist.text}}</li></a>
             {% endif %}
         {% endfor %}
     </ul>
+
+    <form class="form-group" action="{% url 'add' %}" method="POST" role="form">
+        {% csrf_token %}
+        {{form.text}}
+        <button type="submit" id="add-btn">ADD</button>
+    </form>
+
+    <a href="{% url 'deletecompleted' %}">
+    <button>
+        Delete completed
+    </button>
+    </a>
+    <a href="{% url 'deleteall' %}">
+        <button>
+            Delete All
+        </button>
+    </a>
 </body>
 
 </html>
